@@ -1,4 +1,4 @@
-# p7-groupomania
+# frontend
 
 ## Project setup
 ```
