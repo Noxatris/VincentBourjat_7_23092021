@@ -25,8 +25,13 @@ const Commentaire = sequelize.define("Messages", {
         references: {
             model: Message,
             key: 'id'
-        }
-    }
-  });
+        },
+    },
+    date_creation: {
+      type: DataTypes.DATE,
+      defaultValue: Sequelize.NOW
+    },
+  },{timestamps:false});
   
+  Commentaire.sync({alter: true});
   module.exports = Commentaire;

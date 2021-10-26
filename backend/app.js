@@ -5,6 +5,7 @@ const mysql = require('mysql');
 
 const userRoutes = require('./routes/user');
 const messageRoutes = require('./routes/message');
+const commentaireRoutes = require('./routes/commentaire');
 const Sequelize= require('sequelize');
 
 
@@ -28,5 +29,6 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/auth', userRoutes);
 app.use('/api/message', messageRoutes);
+app.use('/api/commentaire', commentaireRoutes);
 
 module.exports = app;

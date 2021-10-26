@@ -163,12 +163,80 @@ export default ({
             tabMessage[19].classList.add("fas");
             tabMessage[19].classList.add("fa-thumbs-down");
             tabMessage[19].classList.add("invisible");
+
+            /*-----------------------------------------------------
+                                COMMENTAIRE
+            -----------------------------------------------------*/
+            let commentaire = []
+            commentaire = this.recuperationCommentaire(donnee["id"]);
+            console.log(commentaire);
+
+            for(let i = 0; i < commentaire.length; i++){
+                let newCom = this.creationCommentaire(commentaire[i])
+                tabMessage[13].appendChild(newCom);
+            }
+
             
 
             
             let conteneurMessage = document.getElementsByClassName("liste_message");
             conteneurMessage[0].appendChild(tabMessage[0]);
         },
+
+        recuperationCommentaire: async function(id){
+            fetch('http://localhost:3000/api/commentaire/' + id, { 
+                method: 'GET',
+                headers:{
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            })
+            .then(res => {
+                if(res.ok){
+                    return res.json();
+                }
+            })
+            .then(value => {                
+                return value;              
+            })
+            .catch()
+        },
+
+        creationCommentaire: function(commentaire){
+            let tabCommentaire = [];
+
+            tabCommentaire[0] = document.createElement("div"); // Div englobant le commentaire
+            tabCommentaire[1] = document.createElement("div"); // Div contenant le nom ainsi que le bouton pour le supprimer
+            tabCommentaire[2] = document.createElement("p"); // Contient le nom de l'auteur
+            tabCommentaire[3] = document.createElement("p"); // Contient le contenu du commentaire
+
+            tabCommentaire[0].appendChild(tabCommentaire[1]);
+            tabCommentaire[0].appendChild(tabCommentaire[3]);
+
+            tabCommentaire[1].appendChild(tabCommentaire[2]);
+
+            fetch('http://localhost:3000/api/auth/' + commentaire["author"], { 
+                method: 'GET',
+                headers:{
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                }
+            })
+            .then(res => {
+                if(res.ok){
+                    return res.json();
+                }
+            })
+            .then(value => {                
+                tabCommentaire[2].innerText = value[0]["name"];               
+            })
+            .catch()
+            tabCommentaire[3].innerText = commentaire["contenu"];
+
+            return tabCommentaire[0];
+        }
     },
     beforeMount(){
         this.recuperationDonnee();

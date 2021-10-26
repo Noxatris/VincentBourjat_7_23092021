@@ -5,7 +5,6 @@ exports.getAllMessage = (req, res, next) => {
          order: [['date_creation', 'DESC']]
     })
     .then(message => {
-        console.log(message);
         res.status(201).json(message)
     })
     .catch(error => {
