@@ -25,7 +25,8 @@ const Message = sequelize.define("Messages", {
       references: {
         model: Users,
         key: 'id'
-      }
+      },
+      onUpdate: 'CASCADE',
     },
     img_url: {
       type: DataTypes.TEXT

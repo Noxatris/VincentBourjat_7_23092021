@@ -11,7 +11,8 @@ export default ({
         return {
             token: localStorage.getItem('token'),
             userId: localStorage.getItem('user'),
-            role: ''
+            role: '',
+            value: null
         }
     },
     methods: {
@@ -59,6 +60,7 @@ export default ({
                 tabMessage[7].classList.add("btn_suppr");
                 tabMessage[7].setAttribute('type', 'button');
                 tabMessage[7].value = 'X';
+                tabMessage[7].onclick = this.deleteMessage;
             }
 
             tabMessage[8] = document.createElement('p'); // Texte du message
@@ -73,12 +75,8 @@ export default ({
                 tabMessage[9].setAttribute("src", donnee["imageUrl"]);
             }
 
-            tabMessage[10] = document.createElement('a'); // Bouton Like
-            tabMessage[11] = document.createElement('a'); // Bouton dislike
-
-            tabMessage[12] = document.createElement('input'); // Button commentaire
-
-            tabMessage[13] = document.createElement('div'); // Conteneur commentaire
+            tabMessage[10] = document.createElement('div'); // Bouton Like
+            tabMessage[11] = document.createElement('div'); // Bouton dislike
 
             tabMessage[14] = document.createElement('p'); // Nombre Like
             tabMessage[15] = document.createElement('p'); // Nombre Dislike
@@ -88,6 +86,8 @@ export default ({
 
             tabMessage[18] = document.createElement('i'); // Icone like remplie
             tabMessage[19] = document.createElement('i'); // Icone Dislike remplie
+
+            tabMessage[20] = document.createElement('p'); // Text 'Commentaire'
 
             tabMessage[0].appendChild(tabMessage[1]);
             tabMessage[0].appendChild(tabMessage[2]);
@@ -102,16 +102,12 @@ export default ({
             
 
             tabMessage[10].appendChild(tabMessage[16]);
-            tabMessage[10].appendChild(tabMessage[17]);
+            tabMessage[10].appendChild(tabMessage[18]);
             tabMessage[10].appendChild(tabMessage[14]);
 
-            tabMessage[11].appendChild(tabMessage[18]);
+            tabMessage[11].appendChild(tabMessage[17]);
             tabMessage[11].appendChild(tabMessage[19]);
             tabMessage[11].appendChild(tabMessage[15]);
-
-            tabMessage[5].appendChild(tabMessage[12]);
-
-
 
             // Récupération et affichage du nom de l'auteur
             fetch('http://localhost:3000/api/auth/' + donnee["author"], { 
@@ -137,19 +133,23 @@ export default ({
 
             // Gestion Like / Dislike
             tabMessage[14].innerText = donnee["like"];
-            tabMessage[15].innerText = donnee["dislike"]
+            tabMessage[15].innerText = donnee["dislike"];
 
-            // Gestion Commentaire
-            tabMessage[12].setAttribute("type", "button");
-            tabMessage[12].setAttribute("value", "Commentaires");
+            tabMessage[20].innerText = "Commentaires : ";
             
             tabMessage[0].classList.add("conteneur_message");
+            tabMessage[0].id = donnee["id"];
             tabMessage[1].classList.add("conteneur_texte");
             tabMessage[2].classList.add("conteneur_contenu");
             tabMessage[4].classList.add("conteneur_avis");
-            tabMessage[5].classList.add("conteneur_btn_commentaire");
+            tabMessage[5].classList.add('conteneur_commentaire');
+
+            tabMessage[10].classList.add("likes");
+            tabMessage[11].classList.add("dislikes");
+            
 
 
+            tabMessage[16].classList.add("fa-thumbs-up");
             tabMessage[16].classList.add("far");
             tabMessage[16].classList.add("fa-thumbs-up");
 
@@ -164,26 +164,24 @@ export default ({
             tabMessage[19].classList.add("fa-thumbs-down");
             tabMessage[19].classList.add("invisible");
 
+            tabMessage[10].onclick = this.envoiAvis;
+            tabMessage[11].onclick = this.envoiAvis;
+
             /*-----------------------------------------------------
                                 COMMENTAIRE
             -----------------------------------------------------*/
-            let commentaire = []
-            commentaire = this.recuperationCommentaire(donnee["id"]);
-            console.log(commentaire);
+            tabMessage[5].appendChild(tabMessage[20]);
 
-            for(let i = 0; i < commentaire.length; i++){
-                let newCom = this.creationCommentaire(commentaire[i])
-                tabMessage[13].appendChild(newCom);
-            }
+            this.recuperationCommentaire(donnee["id"], tabMessage[5])
 
-            
 
-            
+
             let conteneurMessage = document.getElementsByClassName("liste_message");
             conteneurMessage[0].appendChild(tabMessage[0]);
         },
 
-        recuperationCommentaire: async function(id){
+        recuperationCommentaire: function(id, eltParent){
+
             fetch('http://localhost:3000/api/commentaire/' + id, { 
                 method: 'GET',
                 headers:{
@@ -197,13 +195,22 @@ export default ({
                     return res.json();
                 }
             })
-            .then(value => {                
-                return value;              
+            .then(value => {
+                this.affichageCommenaire(value, eltParent);
             })
-            .catch()
+            .catch(error => {error})
+            
+        },
+        affichageCommenaire: function(donnee, eltParent){
+
+            for(let i=0; i < donnee.length; i++){
+                this.creationCommentaire(donnee[i], eltParent);
+            }
+            let saisie = this.zoneSaisie()
+            eltParent.appendChild(saisie);
         },
 
-        creationCommentaire: function(commentaire){
+        creationCommentaire: function(commentaire, elementParent){
             let tabCommentaire = [];
 
             tabCommentaire[0] = document.createElement("div"); // Div englobant le commentaire
@@ -215,6 +222,8 @@ export default ({
             tabCommentaire[0].appendChild(tabCommentaire[3]);
 
             tabCommentaire[1].appendChild(tabCommentaire[2]);
+
+            tabCommentaire[0].classList.add("commentaire");
 
             fetch('http://localhost:3000/api/auth/' + commentaire["author"], { 
                 method: 'GET',
@@ -234,8 +243,103 @@ export default ({
             })
             .catch()
             tabCommentaire[3].innerText = commentaire["contenu"];
+            console.log(tabCommentaire[0]);
 
-            return tabCommentaire[0];
+            elementParent.appendChild(tabCommentaire[0]);
+        },
+        zoneSaisie: function(){
+            let tabSaisie = [];
+
+            tabSaisie[0] = document.createElement("div"); // Div englobant le tout
+            tabSaisie[1] = document.createElement("input"); // Zone de saisie
+            tabSaisie[2] = document.createElement("input"); // Bouton d'envoie
+
+            tabSaisie[0].appendChild(tabSaisie[1]);
+            tabSaisie[0].appendChild(tabSaisie[2]);
+
+            tabSaisie[1].setAttribute("placeholder", "Saisir un commentaire");
+            tabSaisie[2].setAttribute("type", "button");
+
+            tabSaisie[0].classList.add("conteneur_saisie");
+            tabSaisie[2].value = "+";
+            tabSaisie[2].onclick = this.envoiCommentaire;
+
+            return tabSaisie[0];
+        },
+        envoiCommentaire: function(e){
+            let msg = e.target.parentNode.parentNode.parentNode.id;
+            let contenu = e.target.previousSibling.value;
+            let donnee = {author: this.userId, msgId: msg, contenu: contenu};
+            console.log("MSG : " + msg);
+            console.log("Contenu : " + contenu);
+            console.log("Donnee : " + donnee);
+            fetch('http://localhost:3000/api/commentaire/', { 
+                method: 'POST',
+                headers:{
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                },
+                body: JSON.stringify(donnee)
+            })
+            .then(res =>{
+                    alert(res.body)
+            })
+            .catch(error => alert(error))
+        },
+        refreshPage: function(){
+            location.reload();
+        },
+        envoiAvis: function(e){
+            let idMessage;
+            let avis = 0;
+            if(e.target.tagName.toLowerCase() === "div"){
+                idMessage = e.target.parentNode.parentNode.id;
+                avis = e.target;
+            } else if(e.target.tagName.toLowerCase() === "p") {
+                idMessage = e.target.parentNode.parentNode.parentNode.id;
+                avis = e.target.parentNode;
+            } else{
+                idMessage = e.target.parentNode.parentNode.parentNode.parentNode.id;
+                avis = e.target.parentNode.parentNode;
+            }
+
+            if(avis.className === "likes"){
+                avis = 1;
+            }else{
+                avis = 2;
+            }
+
+            fetch('http://localhost:3000/api/message/like/', { 
+                method: 'POST',
+                headers:{
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                },
+                body: JSON.stringify({message_principale: idMessage, author: this.userId, avis: avis})
+            })
+            .then(() =>{
+
+                    this.refreshPage();
+            })
+            .catch(error => alert(error))
+            
+        },
+        deleteMessage: function(e){
+            let idMessage = e.target.parentNode.parentNode.id;
+            fetch('http://localhost:3000/api/message/'+ idMessage, { 
+                method: 'DELETE',
+                headers:{
+                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + this.token
+                },
+            })
+            .then(() =>{
+                    this.refreshPage();
+            })
+            .catch(error => alert(error))
         }
     },
     beforeMount(){
@@ -278,26 +382,36 @@ export default ({
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        height: 35px;   
+    }
+
+    .conteneur_avis div{
+        cursor: pointer;
+        height: 100%;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid black;
+    }
+
+    .dislikes{
         position: relative;
-        height: 35px;
     }
 
-    .conteneur_avis p {
-        margin: 0 15px;
+    .likes{
+        position: relative;
     }
-
     .conteneur_avis svg{
         position: absolute;
-        cursor: pointer;
-        height: 50%;
     }
 
-    .conteneur_avis .fa-thumbs-up{
-        right: 19%;
+    .fa-thumbs-up{
+        right: 55%;
     }
 
-        .conteneur_avis .fa-thumbs-down{
-        right: 8%;
+    .fa-thumbs-down{
+        right: 55%;
     }
 
     .invisible{
@@ -315,16 +429,21 @@ export default ({
         margin-left: 5px;
     }
 
-    /* Commentaire (bouton) */
-    .conteneur_btn_commentaire{
-        width: 100%;
-        overflow: hidden;
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
+    /*-----------------------------------------------
+                    Commentaire 
+    ------------------------------------------------*/
+    .commentaire{
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 95%;
+        margin: 10px auto;
     }
-    .conteneur_btn_commentaire input{
-        width: 100%;
-        height: 25px;
+
+    .conteneur_saisie{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 10px;
     }
 
 </style>

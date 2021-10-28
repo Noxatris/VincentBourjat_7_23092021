@@ -3,15 +3,15 @@ const sequelize = require('./config');
 const Message = require("./message");
 const User = require('./user');
 
-const Commentaire = sequelize.define("Commentaires", {
+const Avis = sequelize.define("Avis", {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       allowNull: false
     },
-    contenu: {
-      type: DataTypes.TEXT,
+    avis: {
+      type: DataTypes.INTEGER,
     },
     author: {
       type: DataTypes.INTEGER,
@@ -29,11 +29,7 @@ const Commentaire = sequelize.define("Commentaires", {
         },
         onDelete: 'CASCADE',
     },
-    date_creation: {
-      type: DataTypes.DATE,
-      defaultValue: Sequelize.NOW
-    },
   },{timestamps:false});
   
-  Commentaire.sync({alter: true});
-  module.exports = Commentaire;
+  Avis.sync({alter: true});
+  module.exports = Avis;

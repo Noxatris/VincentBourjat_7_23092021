@@ -41,12 +41,26 @@ export default({
         envoieForm: function(){
             if(this.chkForm()){
                 let donnee;
+                let token =  localStorage.getItem('token');
+                console.log(this.file);
                 if(this.file){
-                    donnee = {contenu: this.contenu, image: this.file, author: localStorage.getItem('user')};
+                    donnee = {contenu: this.contenu, file: this.file, author: localStorage.getItem('user')};
+                    fetch('http://localhost:3000/images', { 
+                        method: 'POST',
+                        headers:{
+                            'Accept': 'application/json', 
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify(this.file),
+                    })
+                    .then(res =>{
+                        alert(res.body)
+                    })
+                    .catch(error => alert(error))
                 } else {
                     donnee = {contenu: this.contenu, author: localStorage.getItem('user')}; 
                 }
-                let token =  localStorage.getItem('token');
 
                 fetch('http://localhost:3000/api/message/', { 
                     method: 'POST',
@@ -55,12 +69,15 @@ export default({
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer ' + token
                     },
-                    body: JSON.stringify(donnee)
+                    body: JSON.stringify(donnee),
                 })
                 .then(res =>{
                     alert(res.body)
                 })
                 .catch(error => alert(error))
+                
+
+
             } else {
                 alert("Veuillez remplir la zone texte");
             }
