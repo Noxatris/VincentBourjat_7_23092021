@@ -44,15 +44,17 @@ export default({
                 let token =  localStorage.getItem('token');
                 console.log(this.file);
                 if(this.file){
+                    const fd = new FormData();
+                    fd.append('image', this.file)
                     donnee = {contenu: this.contenu, file: this.file, author: localStorage.getItem('user')};
-                    fetch('http://localhost:3000/images', { 
+                    fetch('http://localhost:3000/images/message', { 
                         method: 'POST',
                         headers:{
                             'Accept': 'application/json', 
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer ' + token
                         },
-                        body: JSON.stringify(this.file),
+                        body: JSON.stringify(fd),
                     })
                     .then(res =>{
                         alert(res.body)

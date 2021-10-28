@@ -57,6 +57,7 @@ export default ({
                 .then(value => {
                     localStorage.setItem('token', value.token);
                     localStorage.setItem('user', value.userId);
+                    localStorage.setItem('role', value.role);
                     this.$router.push({ path: '/Main'})
                 })
                 .catch()

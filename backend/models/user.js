@@ -18,7 +18,12 @@ const Users = sequelize.define("Users", {
   },
   password: {
     type: DataTypes.TEXT,
+  },
+  role: {
+    type: DataTypes.TEXT,
+    defaultValue: 'membre' 
   }
 },{timestamps:false});
 
+Users.sync({alter: true});
 module.exports = Users;

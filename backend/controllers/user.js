@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const Avis = require('../models/avis');
+const Commentaire = require('../models/commentaire');
+const Message = require('../models/message');
 
 // Gére l'inscription d'un utilisateur
 exports.signup = (req, res, next) => {
@@ -31,6 +34,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
               userId: user[0].id,
+              role: user[0].role,
               token: jwt.sign(
                   { userId: user.id},
                   'RANDOM_TOKEN_SECRET',
@@ -57,3 +61,27 @@ exports.getOneUser = (req, res, next) => {
       res.status(500).json({ error })
   })
 };
+
+exports.deleteUser = (req, res, next) => {
+  Avis.destroy({
+    where: {
+      author: req.params.id
+    }
+  });
+  Commentaire.destroy({
+    where: {
+      author: req.params.id
+    }
+  });
+  Message.destroy({
+    where: {
+      author: req.params.id
+    }
+  });
+  User.destroy({
+    where: {
+      id: req.params.id
+    }
+  });
+  res.status(201).json({message: "Utilisateur supprimé"});
+}

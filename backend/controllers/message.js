@@ -30,7 +30,7 @@ exports.getOneMessage = (req, res, next) => {
 };
 
 exports.createMessage = (req, res, next) => {
-    const message = Message.build({contenu: req.body.contenu, author: req.body.author});
+    const message = Message.build({contenu: req.body.contenu, author: req.body.author, });
     message.save();
     res.status(201).json({message: 'Message créé'});
 };

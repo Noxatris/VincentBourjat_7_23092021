@@ -11,7 +11,7 @@ export default ({
         return {
             token: localStorage.getItem('token'),
             userId: localStorage.getItem('user'),
-            role: '',
+            role: localStorage.getItem("role"),
             value: null
         }
     },
