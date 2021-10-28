@@ -65,14 +65,14 @@ export default ({
 
             tabMessage[8] = document.createElement('p'); // Texte du message
 
-            if(donnee["imageUrl" != null]){
+            if(donnee["img_url"] != null){
                 tabMessage[3] = document.createElement('div'); // div image
                 tabMessage[0].appendChild(tabMessage[3]);
                 tabMessage[9] = document.createElement('img'); // Image du message
                 tabMessage[3].appendChild(tabMessage[9]);
 
-                // Ajout de l'image
-                tabMessage[9].setAttribute("src", donnee["imageUrl"]);
+                tabMessage[9].setAttribute("src", donnee["img_url"]);
+
             }
 
             tabMessage[10] = document.createElement('div'); // Bouton Like

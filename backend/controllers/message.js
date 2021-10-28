@@ -30,7 +30,8 @@ exports.getOneMessage = (req, res, next) => {
 };
 
 exports.createMessage = (req, res, next) => {
-    const message = Message.build({contenu: req.body.contenu, author: req.body.author, });
+    const messageObject = JSON.parse(req.body.donnee);
+    const message = Message.build({contenu: messageObject.contenu, author: messageObject.author, img_url: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`});
     message.save();
     res.status(201).json({message: 'Message créé'});
 };

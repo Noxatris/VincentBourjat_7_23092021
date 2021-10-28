@@ -9,7 +9,7 @@
         </div>
 
         <div class="conteneur_envoie">
-            <input type="file" @change='onFileSelected'>
+            <input type="file" @change='onFileSelected' accept="image/*" id="image">
             <p>Ajouter une image</p>
             <button @click='envoieForm'>Envoyé</button>
         </div>
@@ -44,17 +44,18 @@ export default({
                 let token =  localStorage.getItem('token');
                 console.log(this.file);
                 if(this.file){
-                    const fd = new FormData();
-                    fd.append('image', this.file)
                     donnee = {contenu: this.contenu, file: this.file, author: localStorage.getItem('user')};
-                    fetch('http://localhost:3000/images/message', { 
+                    let fd = new FormData();
+                    fd.append('image', this.file);
+                    fd.append('donnee', JSON.stringify(donnee));
+                    console.log(fd);
+                    fetch('http://localhost:3000/api/message/', { 
                         method: 'POST',
                         headers:{
-                            'Accept': 'application/json', 
-                            'Content-Type': 'application/json',
+                            'Accept': 'multipart/form-data', 
                             'Authorization': 'Bearer ' + token
                         },
-                        body: JSON.stringify(fd),
+                        body: fd
                     })
                     .then(res =>{
                         alert(res.body)
@@ -62,24 +63,20 @@ export default({
                     .catch(error => alert(error))
                 } else {
                     donnee = {contenu: this.contenu, author: localStorage.getItem('user')}; 
+                    fetch('http://localhost:3000/api/message/', { 
+                        method: 'POST',
+                        headers:{
+                            'Accept': 'application/json', 
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify(donnee),
+                    })
+                    .then(res =>{
+                        alert(res.body)
+                    })
+                    .catch(error => alert(error))
                 }
-
-                fetch('http://localhost:3000/api/message/', { 
-                    method: 'POST',
-                    headers:{
-                        'Accept': 'application/json', 
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify(donnee),
-                })
-                .then(res =>{
-                    alert(res.body)
-                })
-                .catch(error => alert(error))
-                
-
-
             } else {
                 alert("Veuillez remplir la zone texte");
             }
