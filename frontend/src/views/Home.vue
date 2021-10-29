@@ -51,4 +51,43 @@ a{
     align-items: center;
     text-decoration: none;
 }
+
+/*=============================================
+                    TABLET
+=============================================*/
+@media only screen and (min-width : 768px) {
+    .conteneur_menu_principale{
+      max-width: 700px;
+      margin: 0 auto;
+      height: 800px;
+    }
+
+    .conteneur_menu{
+      height: 250px;
+    }
+
+    a{
+      width: 320px;
+      height: 100px;
+    }
+}
+/*=============================================
+                    DESKTOP
+=============================================*/
+@media only screen and (min-width : 1224px) {
+    .conteneur_menu_principale{
+      max-width: 900px;
+      margin: 0 auto;
+      height: 700px;
+    }
+
+    .conteneur_menu{
+      height: 250px;
+    }
+
+    a{
+      width: 320px;
+      height: 100px;
+    }
+}
 </style>

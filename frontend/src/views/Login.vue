@@ -1,6 +1,6 @@
 <template>
     <div class="conteneur_globale">
-        <div class="conteneur_image">
+        <div class="conteneur_image_login">
             <img src="@/assets/icon-left-font-monochrome-black.svg" alt="Logo de Groupomania">      
         </div>
         <FormLogin/>
@@ -27,27 +27,35 @@ export default {
 .conteneur_globale{
     display: flex;
     flex-direction: column;
-    background-color: rgba(180, 180, 180, 0.384);
+    background-color: rgb(102, 101, 101);
     border-radius: 25px;
-    padding: 10px;
-    height: 94vh;
+    height: 84vh;
+    margin: 50px auto 0 auto;
+    width: 90%;
 }
 
-.conteneur_image{
+.conteneur_image_login{
     width: 75%;
-    margin: 50px auto 100px auto;
+    margin: 30px auto 75px auto;
 }
 
 img{
     width: 95%;
 }
 
-/*  DESKTOP */
-@media only screen and (min-width : 1224px) {
+
+/*=============================================
+                    TABLET
+=============================================*/
+@media only screen and (min-width : 768px) {
     .conteneur_globale{
         max-width: 500px;
-        margin: 0 auto;
-        height: 50vh;
     }
+}
+/*=============================================
+                    DESKTOP
+=============================================*/
+@media only screen and (min-width : 1224px) {
+
 }
 </style>

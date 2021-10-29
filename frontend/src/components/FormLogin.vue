@@ -9,6 +9,7 @@
             <input type="password" required id="password" v-model="password">
         </div>
         <button @click="envoieFormulaire">Connection</button>
+        <button @click="retourHome">Retour</button>
     </div>
 </template>
 
@@ -68,6 +69,9 @@ export default ({
 
         goMainPage: function(){
             this.$router.push({ path: '/Main'})
+        },
+        retourHome: function(){
+            this.$router.push({ path: '/'})
         }
     }
 })
@@ -80,7 +84,7 @@ export default ({
     font-size: 1.3em;
     display: flex;
     flex-direction: column;
-
+    color: white;
 }
 
 .conteneur_input {
@@ -94,22 +98,23 @@ p{
 
 input{
     height: 25px;
+    border-radius: 15px;
+    padding-left: 10px;
 }
 
 
 button{
-    margin-top: 50px;
-    background-color: #f2f2f2;
-    border: 1px solid black;
-    width: 65%;
-    margin: 20px auto;
-    height: 50px;
+    border: 1px solid orange;
+    background-color: #555454;
+    color: orange;
+    width: 220px;
+    height: 60px;
     border-radius: 15px;
+    margin: 60px auto 0px auto;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     text-decoration: none;
-    color: black;
 }
 </style>
 
