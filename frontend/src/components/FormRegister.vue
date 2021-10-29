@@ -36,9 +36,9 @@ export default ({
         }
     },
     methods: {
-        checkForm: function(){
+        checkForm: async function(){
             if(this.email && this.password && this.passwordChk && this.name && (this.password == this.passwordChk)){
-                this.sendForm();
+                await this.sendForm();
             }
 
             this.errors = [];
@@ -56,7 +56,7 @@ export default ({
                 this.errors.push('Les mots de passe ne correspond pas');
             }
 
-            return false;   
+            this.$router.push({ path: '/login'})   
         },
         sendForm: function(){
             fetch('http://localhost:3000/api/auth/signup',{
@@ -114,6 +114,12 @@ button{
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-weight: bold;
 }
 </style>
 

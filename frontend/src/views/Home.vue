@@ -50,6 +50,11 @@ a{
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    
+}
+
+a:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 
 /*=============================================
@@ -70,6 +75,7 @@ a{
       width: 320px;
       height: 100px;
     }
+    
 }
 /*=============================================
                     DESKTOP

@@ -29,7 +29,7 @@ export default {
     flex-direction: column;
     background-color: rgb(102, 101, 101);
     border-radius: 25px;
-    height: 84vh;
+    height: 90vh;
     margin: 50px auto 0 auto;
     width: 90%;
 }
@@ -47,7 +47,9 @@ img{
                     TABLET
 =============================================*/
 @media only screen and (min-width : 768px) {
-
+    .conteneur_globale{
+        max-width: 500px;
+    }
 }
 /*=============================================
                     DESKTOP

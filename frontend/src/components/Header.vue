@@ -63,5 +63,20 @@ a{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     border-radius: 15px;
 }
-
+/*=============================================
+                    TABLET
+=============================================*/
+@media only screen and (min-width : 768px) {
+    .conteneur_image_header{
+        width: 40%;
+    }
+}
+/*=============================================
+                    DESKTOP
+=============================================*/
+@media only screen and (min-width : 1224px) {
+    .conteneur_image_header{
+        width: 20%;
+    }
+}
 </style>

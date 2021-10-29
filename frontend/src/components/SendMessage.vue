@@ -148,5 +148,24 @@ textarea{
     color: orange;
     cursor: pointer;
 }
+.btn:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-weight: bold;
+}
+/*=============================================
+                    TABLET
+=============================================*/
+@media only screen and (min-width : 768px) {
+    .conteneur_sendMessage{
+        max-width: 750px;
+        margin: 30px auto 10px auto;
+    }
+}
+/*=============================================
+                    DESKTOP
+=============================================*/
+@media only screen and (min-width : 1224px) {
+
+}
 
 </style>

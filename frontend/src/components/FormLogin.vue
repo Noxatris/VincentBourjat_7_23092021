@@ -115,6 +115,12 @@ button{
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-weight: bold;
 }
 </style>
 

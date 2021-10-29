@@ -386,6 +386,11 @@ export default ({
         box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
         color: orange;
     }
+    .conteneur_texte input:hover{
+        font-weight: bold;
+        color: red;
+        border-color: red;
+    }
     /* IMAGE GESTION */
     .conteneur_image{
         height: 200px;
@@ -394,6 +399,11 @@ export default ({
         align-items: center;
         overflow: hidden;
         border-bottom: 1px solid orange;
+    }
+
+    .conteneur_image img{
+        min-width: 100%;
+        min-height: 100%;
     }
 
     /* Avis */
@@ -501,6 +511,7 @@ export default ({
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
         width: 82%;
+        padding-left: 10px;
     }
 
     .btn_commentaire{
@@ -511,6 +522,26 @@ export default ({
         border: 1px solid orange;
         background-color: #555454;
         font-size: 1.5em;
+    }
+
+    .btn_commentaire:hover{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        font-weight: bold;
+    }
+    /*=============================================
+                        TABLET
+    =============================================*/
+    @media only screen and (min-width : 768px) {
+        .liste_message{
+            max-width: 850px;
+            margin: 0 auto;
+        }
+    }
+    /*=============================================
+                        DESKTOP
+    =============================================*/
+    @media only screen and (min-width : 1224px) {
+
     }
 
 </style>
