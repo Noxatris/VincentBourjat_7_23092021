@@ -1,18 +1,25 @@
 <template>
     <div class="conteneur_header">
-        <div class="conteneur_image">
+        <div class="conteneur_image_header">
             <img alt="Logo Groupomania" src="@/assets/icon-left-font-monochrome-black.svg">
         </div>
         <div class="conteneur_icone">
             <router-link to="/Profile"><i class="fas fa-user"></i></router-link>
-            <router-link to="/"><i class="fas fa-sign-out-alt"></i></router-link>
+            <router-link to="/" @click='leave'><i class="fas fa-sign-out-alt"></i></router-link>
         </div>
     </div>
 </template>
 
 <script>
 export default ({
-    name: 'Header'
+    name: 'Header',
+    methods:{
+        leave: function(){
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            localStorage.removeItem("role");
+        }
+    }
 })
 </script>
 
@@ -24,16 +31,17 @@ export default ({
     height: 50px;
     display: flex;
     justify-content: space-between;
-    background-color: gray
+    background-color: gray;
+    border-bottom: 3px solid orange;
 }
 
-.conteneur_image{
+.conteneur_image_header{
     display: flex;
     align-items: center;
     width: 55%;
 }
 
-.conteneur_image img{
+.conteneur_image_header img{
     width: 100%;
 }
 
@@ -47,9 +55,9 @@ export default ({
     font-size: 1.5em;
 }
 
-a{
+a{  
+    color: orange;
     text-decoration: none;
-    color: black;
     width: 50%;
     height: 25px;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;

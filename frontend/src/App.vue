@@ -1,12 +1,16 @@
 <template>
   <div id="nav">
-    <router-link to="/login">Connexion</router-link> |
-    <router-link to="/register">S'enregistrer</router-link>
+    <router-view/>
   </div>
-  <router-view/>
+
+  
 </template>
 
 <style lang="scss">
+body{
+  margin: 0;
+  background-color: gray;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -16,11 +20,10 @@
 }
 
 #nav {
-  padding: 30px;
+  padding: 0px;
 
   a {
     font-weight: bold;
-    color: #2c3e50;
 
     &.router-link-exact-active {
       color: #42b983;

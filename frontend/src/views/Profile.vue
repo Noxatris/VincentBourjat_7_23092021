@@ -1,7 +1,7 @@
 <template>
     <div>
         <Header/>
-        <p>Souhaiter supprimé votre compte</p>
+        <p>Souhaitez-vous supprimé votre compte ?</p>
         <div>
             <button @click="suppressionCompte">Oui</button>
             <button @click="retourMain">Non</button>
@@ -42,6 +42,21 @@ export default({
         }
     }
 })
-
-
 </script>
+
+<style scoped>
+
+p{
+    color: white
+}
+
+button{
+    border: 1px solid orange;
+    background-color: #555454;
+    color: orange;
+    width: 75px;
+    height: 50px;
+    border-radius: 15px;
+    margin: 0 30px;
+}
+</style>

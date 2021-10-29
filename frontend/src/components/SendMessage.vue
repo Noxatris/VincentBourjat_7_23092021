@@ -4,17 +4,18 @@
             <p>Poster un message</p>
         </div>
 
-        <div class="conteneur_texte">
+        <div class="conteneur_texte_send">
             <textarea required v-model="contenu"></textarea>
         </div>
 
         <div class="conteneur_envoie">
-            <input type="file" @change='onFileSelected' accept="image/*" id="image">
             <p>Ajouter une image</p>
-            <button @click='envoieForm'>Envoyé</button>
+            <div class="conteneur_sendFile">
+                <input type="file" @change='onFileSelected' accept="image/*">
+                <button @click='envoieForm' class="btn">Envoyé</button>
+            </div>
         </div>
         
-        <div class="separateur"></div>
     </div>
 </template>
 
@@ -57,8 +58,8 @@ export default({
                         },
                         body: fd
                     })
-                    .then(res =>{
-                        alert(res.body)
+                    .then(() =>{
+                        location.reload();
                     })
                     .catch(error => alert(error))
                 } else {
@@ -72,8 +73,8 @@ export default({
                         },
                         body: JSON.stringify(donnee),
                     })
-                    .then(res =>{
-                        alert(res.body)
+                    .then(() =>{
+                        location.reload();
                     })
                     .catch(error => alert(error))
                 }
@@ -88,54 +89,55 @@ export default({
 <style scoped>
 .conteneur_sendMessage{
     width: 90%;
-    margin: 0 auto;
+    margin: 10px auto 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    border-radius: 10px;
+    border: 1px solid orange;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(102, 101, 101);
 }
 
-.conteneur_texte{
+.conteneur_texte_send{
     display: flex;
     justify-content: center;
+    align-items: center;
+    border-top: 1px solid orange;
+    height: 140px;
 }
 
 textarea{
-    width: 100%;
-    margin: 0 auto;
+    width: 90%;
     height: 100px;
     font-size: 1.5em;
+    resize: none;
+    border-radius: 15px;
+    padding: 10px;
 }
+
 .conteneur_envoie{
     display: flex;
+    flex-direction: column;
     width: 100%;
     margin-top: 5px;
     align-items: center;
+    border-top: 1px solid orange;
 }
 
 .conteneur_envoie:last-child{
     justify-self: flex-end;
 }
 
-.separateur{
-    background-color: black;
-    width: 80%;
-    height: 2px;
-    margin: 20px auto 0 auto;
+.conteneur_sendFile{
+    display: flex;
+    flex-direction: column;
 }
 
-#ajout_image{
-    border-radius: 20px;
-    width: 35px;
-    height: 35px;
-    background-color: rgb(131, 197, 131);
-    color: white;
-    font-size: 1.2em;
-    font-weight: bold;
-    margin: 0 5px;
 
-}
-
-#btn_envoi{
-    background-color: #f2f2f2;
-    border: 1px solid black;
-    width: 35%;
+.btn{
+    background-color: #555454;
+    border: 1px solid orange;
+    width: 45%;
     margin: 20px auto;
     height: 35px;
     border-radius: 15px;
@@ -143,7 +145,8 @@ textarea{
     align-items: center;
     justify-content: center;
     text-decoration: none;
-    color: black;
+    color: orange;
+    cursor: pointer;
 }
 
 </style>

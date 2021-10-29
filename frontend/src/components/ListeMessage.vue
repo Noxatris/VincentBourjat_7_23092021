@@ -40,7 +40,7 @@ export default ({
                 this.creationMessage(donnee[i]);
             }
         },
-        creationMessage: function(donnee){
+        creationMessage: async function(donnee){
             let tabMessage = [];
 
             tabMessage[0] = document.createElement('div'); // Div Principale
@@ -53,6 +53,7 @@ export default ({
 
 
             tabMessage[1].appendChild(tabMessage[6]);
+            tabMessage[0].appendChild(tabMessage[1]);
 
             if(donnee["author"] == this.userId || this.role == "admin"){
                 tabMessage[7] = document.createElement('input'); // button
@@ -67,6 +68,7 @@ export default ({
 
             if(donnee["img_url"] != null){
                 tabMessage[3] = document.createElement('div'); // div image
+                tabMessage[3].classList.add("conteneur_image");
                 tabMessage[0].appendChild(tabMessage[3]);
                 tabMessage[9] = document.createElement('img'); // Image du message
                 tabMessage[3].appendChild(tabMessage[9]);
@@ -89,7 +91,7 @@ export default ({
 
             tabMessage[20] = document.createElement('p'); // Text 'Commentaire'
 
-            tabMessage[0].appendChild(tabMessage[1]);
+            
             tabMessage[0].appendChild(tabMessage[2]);
             tabMessage[0].appendChild(tabMessage[4]);
             tabMessage[0].appendChild(tabMessage[5]);
@@ -135,7 +137,8 @@ export default ({
             tabMessage[14].innerText = donnee["like"];
             tabMessage[15].innerText = donnee["dislike"];
 
-            tabMessage[20].innerText = "Commentaires : ";
+            tabMessage[20].classList.add("titre_commentaire")
+            tabMessage[20].innerText = "↓    Commentaires    ↓ ";
             
             tabMessage[0].classList.add("conteneur_message");
             tabMessage[0].id = donnee["id"];
@@ -261,6 +264,8 @@ export default ({
             tabSaisie[2].setAttribute("type", "button");
 
             tabSaisie[0].classList.add("conteneur_saisie");
+            tabSaisie[1].classList.add("zoneSaisie_commentaire");
+            tabSaisie[2].classList.add("btn_commentaire");
             tabSaisie[2].value = "+";
             tabSaisie[2].onclick = this.envoiCommentaire;
 
@@ -270,9 +275,6 @@ export default ({
             let msg = e.target.parentNode.parentNode.parentNode.id;
             let contenu = e.target.previousSibling.value;
             let donnee = {author: this.userId, msgId: msg, contenu: contenu};
-            console.log("MSG : " + msg);
-            console.log("Contenu : " + contenu);
-            console.log("Donnee : " + donnee);
             fetch('http://localhost:3000/api/commentaire/', { 
                 method: 'POST',
                 headers:{
@@ -282,8 +284,8 @@ export default ({
                 },
                 body: JSON.stringify(donnee)
             })
-            .then(res =>{
-                    alert(res.body)
+            .then(() =>{
+                this.refreshPage();
             })
             .catch(error => alert(error))
         },
@@ -320,8 +322,7 @@ export default ({
                 body: JSON.stringify({message_principale: idMessage, author: this.userId, avis: avis})
             })
             .then(() =>{
-
-                    this.refreshPage();
+                this.refreshPage();
             })
             .catch(error => alert(error))
             
@@ -352,17 +353,22 @@ export default ({
     .conteneur_message{
         display: flex;
         flex-direction: column;
-        width: 95%;
-        margin: 20px auto;
-        border: 1px solid black;
+        width: 90%;
+        margin: 30px auto;
+        border: 1px solid orange;
         border-radius: 15px;
+        color: white;
+        box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+        background-color: rgb(102, 101, 101);
     }
     
     /* Titre + bouton suppr */
     .conteneur_texte{
         display: flex;
         justify-content: space-between;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid orange;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
     }
 
     .conteneur_texte p{
@@ -375,6 +381,19 @@ export default ({
         height: 30px;
         width: 30px;
         margin: auto 10px;
+        background-color: #555454;
+        border: 1px solid orange;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+        color: orange;
+    }
+    /* IMAGE GESTION */
+    .conteneur_image{
+        height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        border-bottom: 1px solid orange;
     }
 
     /* Avis */
@@ -392,15 +411,24 @@ export default ({
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 1px solid black;
+        border: 1px solid orange;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
     }
 
     .dislikes{
         position: relative;
     }
 
+    .dislikes:hover{
+        color: red;
+    }
+
     .likes{
         position: relative;
+    }
+
+    .likes:hover{
+        color: yellowgreen;
     }
     .conteneur_avis svg{
         position: absolute;
@@ -422,7 +450,7 @@ export default ({
     .conteneur_contenu{
         display: flex;
         justify-content: flex-start;
-        border-bottom: 1px solid black;
+        border-bottom: 1px solid orange;
     }
 
     .conteneur_contenu p {
@@ -433,17 +461,56 @@ export default ({
                     Commentaire 
     ------------------------------------------------*/
     .commentaire{
-        border: 1px solid black;
+        border: 1px solid orange;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
         border-radius: 5px;
-        width: 95%;
+        width: 90%;
         margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
     }
 
+
+
+    .commentaire div{
+        border-bottom: 1px solid orange;
+        width: 100%;
+        display: flex;
+    }
+
+    .commentaire div p{
+        margin: 10px 0;
+    }
+
+    /*-----------------------------------
+                    SAISIE
+    -----------------------------------*/
     .conteneur_saisie{
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 10px;
+        margin: 20px 0;
+        height: 40px;
+    }
+
+    .zoneSaisie_commentaire{
+        border: 1px solid orange;
+        height: 95%;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        width: 82%;
+    }
+
+    .btn_commentaire{
+        color: orange;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+        height: 100%;
+        border: 1px solid orange;
+        background-color: #555454;
+        font-size: 1.5em;
     }
 
 </style>

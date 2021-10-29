@@ -5,7 +5,7 @@ exports.getAllCommentaire = (req, res, next) => {
         where:{
             message_principale: req.params.id
         },
-        order: [['date_creation', 'DESC']]
+        order: [['date_creation']]
     })
     .then(commentaires => {
         console.log('Resultat commentaire' + commentaires);
